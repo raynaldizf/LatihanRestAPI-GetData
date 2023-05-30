@@ -3,7 +3,11 @@ package com.app.latihanrestapi.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.latihanrestapi.model.request.DataAllMahasiswa
+import com.app.latihanrestapi.model.request.Mahasiswa
+import com.app.latihanrestapi.model.response.ResponseAddDataMahasiswa
 import com.app.latihanrestapi.model.response.ResponseDataMahasiswa
+import com.app.latihanrestapi.model.response.ResponseDataUpdateMahasiswa
+import com.app.latihanrestapi.model.response.ResponseDeleteDataMahasiswa
 import com.app.latihanrestapi.model.response.ResponseDetailDataMahasiswa
 import com.app.latihanrestapi.network.ApiClient
 import retrofit2.Call
@@ -13,6 +17,8 @@ import retrofit2.Response
 class ViewModelMahasiswa : ViewModel(){
     private val getDataMahasiswa = MutableLiveData<List<DataAllMahasiswa>?>()
     private val detailMahasiswa = MutableLiveData<ResponseDetailDataMahasiswa?>()
+    private val insertMahasiswa = MutableLiveData<ResponseAddDataMahasiswa?>()
+    private val updateMahasiswa = MutableLiveData<ResponseDataUpdateMahasiswa?>()
 
     fun getDataMahasiswa() : MutableLiveData<List<DataAllMahasiswa>?>{
         return getDataMahasiswa
@@ -20,7 +26,12 @@ class ViewModelMahasiswa : ViewModel(){
     fun getDetailMahasiswa(): MutableLiveData<ResponseDetailDataMahasiswa?> {
         return detailMahasiswa
     }
-
+    fun insertMahasiswa(): MutableLiveData<ResponseAddDataMahasiswa?> {
+        return insertMahasiswa
+    }
+    fun updateMahasiswa(): MutableLiveData<ResponseDataUpdateMahasiswa?> {
+        return updateMahasiswa
+    }
 
     fun showDataMahasiswa(){
         ApiClient.instance.getDataMahasiswa().enqueue(object : Callback<ResponseDataMahasiswa>{
@@ -55,6 +66,44 @@ class ViewModelMahasiswa : ViewModel(){
 
             override fun onFailure(call: Call<ResponseDetailDataMahasiswa>, t: Throwable) {
                 detailMahasiswa.postValue(null)
+            }
+        })
+    }
+
+    fun insertDataMahasiswa(nim : String, nama :String,telepon : String){
+        ApiClient.instance.addDataMahasiswa(Mahasiswa(nim,nama,telepon)).enqueue(object : Callback<ResponseAddDataMahasiswa>{
+            override fun onResponse(
+                call: Call<ResponseAddDataMahasiswa>,
+                response: Response<ResponseAddDataMahasiswa>
+            ) {
+                if (response.isSuccessful){
+                    insertMahasiswa.postValue(response.body())
+                }else{
+                    insertMahasiswa.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseAddDataMahasiswa>, t: Throwable) {
+                insertMahasiswa.postValue(null)
+            }
+        })
+    }
+
+    fun updateDataMahasiswa(nim : String, nama :String,telepon : String){
+        ApiClient.instance.updateDataMahasiswa(nim,Mahasiswa(nim,nama,telepon)).enqueue(object : Callback<ResponseDataUpdateMahasiswa>{
+            override fun onResponse(
+                call: Call<ResponseDataUpdateMahasiswa>,
+                response: Response<ResponseDataUpdateMahasiswa>
+            ) {
+                if (response.isSuccessful){
+                    updateMahasiswa.postValue(response.body())
+                }else{
+                    updateMahasiswa.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseDataUpdateMahasiswa>, t: Throwable) {
+                updateMahasiswa.postValue(null)
             }
         })
     }
