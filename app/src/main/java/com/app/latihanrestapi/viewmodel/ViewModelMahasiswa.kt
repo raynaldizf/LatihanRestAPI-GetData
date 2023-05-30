@@ -7,7 +7,6 @@ import com.app.latihanrestapi.model.request.Mahasiswa
 import com.app.latihanrestapi.model.response.ResponseAddDataMahasiswa
 import com.app.latihanrestapi.model.response.ResponseDataMahasiswa
 import com.app.latihanrestapi.model.response.ResponseDataUpdateMahasiswa
-import com.app.latihanrestapi.model.response.ResponseDeleteDataMahasiswa
 import com.app.latihanrestapi.model.response.ResponseDetailDataMahasiswa
 import com.app.latihanrestapi.network.ApiClient
 import retrofit2.Call

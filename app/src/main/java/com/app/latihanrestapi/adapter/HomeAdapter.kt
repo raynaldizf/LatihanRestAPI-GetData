@@ -12,8 +12,9 @@ import com.app.latihanrestapi.databinding.UserListBinding
 import com.app.latihanrestapi.model.request.DataAllMahasiswa
 import com.app.latihanrestapi.model.response.ResponseDeleteDataMahasiswa
 import com.app.latihanrestapi.network.ApiClient
-import com.app.latihanrestapi.viewmodel.ViewModelMahasiswa
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeAdapter(private var dataMhs : List<DataAllMahasiswa>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>(){
 
@@ -30,7 +31,8 @@ class HomeAdapter(private var dataMhs : List<DataAllMahasiswa>) : RecyclerView.A
         return dataMhs.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
+    @SuppressLint("RecyclerView")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.txtNama.text = dataMhs[position].nama
         holder.binding.txtNim.text = dataMhs[position].nIM
         holder.binding.txtTelepon.text = dataMhs[position].telepon
